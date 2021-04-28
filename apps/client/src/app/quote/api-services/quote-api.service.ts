@@ -11,16 +11,14 @@ export class QuoteApiService {
   private apiBase: string = environment.apiUrls.quote;
   private shareApiBase: string = environment.apiUrls.share;
 
-  constructor(
-    private http: HttpClient,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   /**
    *
    * @returns {Observable<Quote>}
    */
   getAll(): Observable<Quote[]> {
-    const url = `${ this.apiBase }/quotes`;
+    const url = `${this.apiBase}/quotes`;
 
     return this.http.get<Quote[]>(url);
   }
@@ -29,7 +27,7 @@ export class QuoteApiService {
    * @returns {Observable<Quote>}
    */
   getRandom(): Observable<Quote> {
-    const url = `${ this.apiBase }/quotes/random`;
+    const url = `${this.apiBase}/quotes/random`;
 
     return this.http.get<Quote>(url);
   }
@@ -39,34 +37,34 @@ export class QuoteApiService {
    * @returns {Observable<Quote>}
    */
   getRandomByTag(tag: string): Observable<Quote> {
-    const url = `${ this.apiBase }/quotes/random-by-tag`;
+    const url = `${this.apiBase}/quotes/random-by-tag`;
     const params = new HttpParams({ fromObject: { tag } });
 
     return this.http.get<Quote>(url, { params });
   }
 
   share(quote: Quote, contactDetails?: ContactData): Observable<any> {
-    const url = `${ this.shareApiBase }/share`;
+    const url = `${this.shareApiBase}/share`;
 
     return this.http.post<any>(url, { quote, ...contactDetails });
   }
 
   create(quote: Quote): Observable<any> {
-    const url = `${ this.apiBase }/quotes`; // TODO
+    const url = `${this.apiBase}/quotes`; // TODO
 
     return this.http.post<any>(url, { quote });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   delete(quote: Quote): Observable<any> {
-    const url = `${ this.apiBase }/quotes`; // TODO
+    const url = `${this.apiBase}/quotes`; // TODO
 
     return this.http.delete<any>(url);
   }
 
   edit(quote: Quote): Observable<any> {
-    const url = `${ this.apiBase }/quotes`; // TODO
+    const url = `${this.apiBase}/quotes`; // TODO
 
     return this.http.put<any>(url, quote);
   }
-
 }
