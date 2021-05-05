@@ -21,9 +21,7 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": "off"
-      }
+      "rules": {}
     },
     {
       "files": ["*.spec.ts", "*.mock.ts", "*.spec.tsx", "*.mock.tsx"],

@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
 import { QuotesService } from '../../services/quotes/quotes.service';
 import { QuoteDto } from '@dev-ops/api-interfaces';
-import { createResponse } from '../../utils/http';
 
 @Controller('api/quotes')
 export class QuotesController {
