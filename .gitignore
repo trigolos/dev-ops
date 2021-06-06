@@ -4,9 +4,11 @@
 /dist
 /tmp
 /out-tsc
+.serverless
+.webpack
 
 # dependencies
-/node_modules
+node_modules
 
 # IDEs and editors
 /.idea

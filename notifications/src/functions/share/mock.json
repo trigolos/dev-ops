@@ -1,0 +1,6 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"email\":\"my_email@test.com\",\"quote\":{\"id\":\"ec5f0d07-df5d-4447-934a-4674c8734f88\",\"isDeleted\":false,\"createdAt\":1613993133669,\"updatedAt\":1613993133669,\"createdBy\":\"Quote app\",\"tags\":[],\"source\":\"quotesy\",\"author\":\"Abraham Lincoln\",\"text\":\"A house divided against itself cannot stand.\"}}"
+}
