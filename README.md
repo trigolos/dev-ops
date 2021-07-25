@@ -10,8 +10,6 @@ Added a proxy configuration for the Angular dev-server, which will proxy request
 
 Running `npm run dev` will start both dev-servers in parallel, prefix each line to the Terminal with either "Angular" or "NestJS".
 
-To run with nginx, run `docker compose up` in root directory. App will be available under https://localhost 
-
 An example of running a db.sh script from `./scripts` folder with specific users.db file:
 `(export USER_DB_FILE=../data/users.db && ./db.sh help)`
 An example of running a build-client.sh script from `./scripts` folder with specific ENV_CONFIGURATION variable:
