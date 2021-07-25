@@ -14,3 +14,14 @@ An example of running a db.sh script from `./scripts` folder with specific users
 `(export USER_DB_FILE=../data/users.db && ./db.sh help)`
 An example of running a build-client.sh script from `./scripts` folder with specific ENV_CONFIGURATION variable:
 `(export ENV_CONFIGURATION=production && ./build-client.sh)`
+
+# Dockerise:
+
+To build Docker image for backend, run: `docker build . -f api.Dockerfile -t devops-api` <br>
+To build Docker image for frontend, run: `docker build . -f client.Dockerfile -t devops-client`
+
+To run Docker container for backend, run: `docker run -d --name=my-devops-client -p 80:80 devops-client`<br>
+To run Docker container for frontend, run: `docker run -d --name=my-devops-api -p 3000:8080 devops-api-client`
+
+To run with nginx, run `docker compose up` in root directory. App will be available under https://localhost 
+
