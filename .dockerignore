@@ -1,0 +1,17 @@
+npm-debug.log
+dist
+node_modules
+.vscode
+.dockerignore
+dockerfiles
+.idea
+scripts
+notifications
+data
+*.md
+docker-compose.yml
+.editorconfig
+.gitignore
+.git
+.prettierignore
+.prettierrc
