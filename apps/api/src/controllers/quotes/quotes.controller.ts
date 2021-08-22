@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { QuotesService } from '../../services/quotes/quotes.service';
 import { QuoteDto } from '@dev-ops/api-interfaces';
+import { JwtAuthGuard } from '../../services/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/quotes')
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
