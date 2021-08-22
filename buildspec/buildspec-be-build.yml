@@ -1,0 +1,34 @@
+version: 0.2
+
+#env:
+#  variables:
+#    S3_BUCKET: "my-test-quote-app"
+#    CLOUDFRONT_DIST_ID: ""
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14.x
+
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm ci
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run build:be:prod
+
+  post_build:
+    commands:
+      - echo Application deployment is started on `date`
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'dist/apps/api*'
+  discard-paths: yes
+
+cache:
+  paths:
+    - '/**/*'
