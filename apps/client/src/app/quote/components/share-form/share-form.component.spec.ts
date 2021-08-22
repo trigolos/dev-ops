@@ -1,5 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
+import { ButtonComponent, InputComponent } from '../../../shared/components';
 import { ShareFormComponent } from './share-form.component';
 
 describe('ShareFormComponent', () => {
@@ -14,12 +16,14 @@ describe('ShareFormComponent', () => {
     validators: [],
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ShareFormComponent ],
-    })
-      .compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule],
+        declarations: [ShareFormComponent, ButtonComponent, InputComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShareFormComponent);
@@ -49,7 +53,7 @@ describe('ShareFormComponent', () => {
       component.submit();
 
       expect(spy).toHaveBeenCalledWith({
-        'test': 'value_test',
+        test: 'value_test',
       });
     });
 

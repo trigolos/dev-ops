@@ -40,7 +40,9 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "prettify": "prettier \"apps/**/*.ts\"",
+    "prettify:fix": "npm run prettify -- --write"
   },
   "dependencies": {
     "@angular/animations": "^11.2.0",
@@ -56,7 +58,9 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
     "@nrwl/angular": "12.0.8",
+    "ng-sidebar": "^9.4.2",
     "ngx-smart-modal": "^7.4.1",
+    "ngx-toastr": "^13.2.1",
     "quotesy": "^1.0.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.3",

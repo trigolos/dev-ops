@@ -4,7 +4,6 @@ import { Quote } from '../models';
 import { QuoteService, QUOTESY } from './quote.service';
 
 export class MockQuoteService {
-
   quote$ = of({});
 
   getRandom(): Observable<Quote> {

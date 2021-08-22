@@ -1,12 +1,12 @@
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgxSmartModalService } from 'ngx-smart-modal';
 import { Observable, of } from 'rxjs';
 
-import { QuoteService } from '../../services';
-import { mockQuoteServiceProvider } from '../../services/quote.service.mock';
-import { NgxSmartModalServiceMock } from '../../stub';
+import { QuoteService } from '../../../services';
+import { mockQuoteServiceProvider } from '../../../services/quote.service.mock';
+import { LoaderComponent } from '../../../shared/components';
+import { mockNgxSmartModalService } from '../../../stub/ngx-smart-modal-service.mock';
 import { MockQuoteComponent } from '../quote/quote.component.mock';
 import { QuoteContainerComponent } from './quote-container.component';
 
@@ -14,19 +14,17 @@ describe('QuoteContainerComponent', () => {
   let component: QuoteContainerComponent;
   let fixture: ComponentFixture<QuoteContainerComponent>;
 
-  const testQuote = { text: 'test quote text', author: 'test' };
+  const testQuote = { id: '1', text: 'test quote text', author: 'test' };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ QuoteContainerComponent, MockQuoteComponent ],
-      providers: [
-        mockQuoteServiceProvider,
-        { provide: NgxSmartModalService, useClass: NgxSmartModalServiceMock },
-      ],
-      imports: [ NoopAnimationsModule ],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [QuoteContainerComponent, MockQuoteComponent, LoaderComponent],
+        providers: [mockQuoteServiceProvider, mockNgxSmartModalService],
+        imports: [NoopAnimationsModule],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteContainerComponent);
@@ -39,21 +37,19 @@ describe('QuoteContainerComponent', () => {
   });
 
   describe('quote$', () => {
-
-    it('should have a quote$ stream from QuoteService', inject([ QuoteService ], quoteService => {
+    it('should have a quote$ stream from QuoteService', inject([QuoteService], (quoteService) => {
       expect(component.quote$).toBeDefined();
       expect(component.quote$).toEqual(jasmine.any(Observable));
       expect(component.quote$).toBe(quoteService.quote$);
     }));
 
-    it('should get random quote onInit', inject([ QuoteService ], quoteService => {
+    it('should get random quote onInit', inject([QuoteService], (quoteService) => {
       const spy = spyOn(quoteService, 'getRandom').and.returnValue(of({}));
 
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
     }));
-
   });
 
   describe('isRefreshBtnClicked$', () => {
@@ -62,27 +58,29 @@ describe('QuoteContainerComponent', () => {
       expect(component.isRefreshBtnClicked$).toEqual(jasmine.any(Observable));
     });
 
-    it('should invoke getRandom method of QuoteService and update status after quote$ has been changes',
-      waitForAsync(inject([ QuoteService ], quoteService => {
-        const spy = spyOn(quoteService, 'getRandom').and.returnValue(of(testQuote));
+    it(
+      'should invoke getRandom method of QuoteService and update status after quote$ has been changes',
+      waitForAsync(
+        inject([QuoteService], (quoteService) => {
+          const spy = spyOn(quoteService, 'getRandom').and.returnValue(of(testQuote));
 
-        component.getRandomQuote();
+          component.getRandomQuote();
 
-        component.isRefreshBtnClicked$.subscribe(isClicked => {
-          expect(spy).toHaveBeenCalled();
-          expect(isClicked).toBe(false);
-        });
-      }),
-      ));
+          component.isRefreshBtnClicked$.subscribe((isClicked) => {
+            expect(spy).toHaveBeenCalled();
+            expect(isClicked).toBe(false);
+          });
+        }),
+      ),
+    );
 
-    it('should stop emitting values on destroy', inject([ QuoteService ], quoteService => {
+    it('should stop emitting values on destroy', inject([QuoteService], (quoteService) => {
       const spy = spyOn(quoteService, 'getRandom').and.returnValue(of(testQuote));
       component.ngOnDestroy();
       component.getRandomQuote();
 
       expect(spy).not.toHaveBeenCalled();
     }));
-
   });
 
   describe('events', () => {
@@ -94,11 +92,10 @@ describe('QuoteContainerComponent', () => {
 
       expect(spy).toHaveBeenCalledTimes(1);
     });
-
   });
 
   describe('openShareModal', () => {
-    it('should open share modal', inject([ QuoteService ], quoteService => {
+    it('should open share modal', inject([QuoteService], (quoteService) => {
       quoteService.hasShareApiUrl = true;
       const spy = spyOn(quoteService, 'share');
 
@@ -107,5 +104,4 @@ describe('QuoteContainerComponent', () => {
       expect(spy).toHaveBeenCalled();
     }));
   });
-
 });

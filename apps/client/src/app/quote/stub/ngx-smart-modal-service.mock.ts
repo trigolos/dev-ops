@@ -46,10 +46,10 @@ export class NgxSmartModalServiceMock {
       isVisible: function () {
         return;
       },
-      getData: function() {
+      getData: function () {
         return {};
       },
-      setData: function() {
+      setData: function () {
         return;
       },
       onOpen: of({}),

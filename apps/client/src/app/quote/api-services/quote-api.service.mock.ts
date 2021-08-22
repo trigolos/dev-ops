@@ -4,7 +4,6 @@ import { Quote } from '../models';
 import { QuoteApiService } from './quote-api.service';
 
 export class MockQuoteApiService {
-
   getAll(): Observable<Quote[]> {
     return of([]);
   }
@@ -20,7 +19,6 @@ export class MockQuoteApiService {
   getRandomByTag(tag: string): Observable<Quote> {
     return of();
   }
-
 }
 
 export const mockQuoteApiServiceProvider = {

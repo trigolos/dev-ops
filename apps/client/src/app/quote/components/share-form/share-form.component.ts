@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ShareOption } from '../view.models';
 
@@ -9,39 +9,54 @@ const EMAIL_REG_EX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")
 @Component({
   selector: 'app-share-form',
   templateUrl: './share-form.component.html',
-  styleUrls: [ './share-form.component.scss' ],
+  styleUrls: ['./share-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShareFormComponent {
+export class ShareFormComponent implements OnInit {
   shareOptions: ShareOption[] = [
     {
       type: 'email',
       inputType: 'email',
       title: 'Email',
       placeholder: 'email@example.com',
-      validators: [
-        Validators.required,
-        Validators.pattern(EMAIL_REG_EX),
-      ],
+      validators: [Validators.required, Validators.pattern(EMAIL_REG_EX)],
     },
     {
       type: 'phone',
       inputType: 'tel',
       title: 'Phone',
       placeholder: '+380999998877',
-      validators: [ Validators.required, Validators.maxLength(15) ],
+      validators: [Validators.required, Validators.maxLength(15)],
     },
   ];
-  selectedShareOption = this.shareOptions[ 0 ];
+  selectedShareOption = this.shareOptions[0];
   shareFormControl: FormControl;
+  form: FormGroup;
 
   @Output() shareSubmit = new EventEmitter<any>();
   @Output() shareCancel = new EventEmitter<any>();
 
-  selectShareOption(shareOption: ShareOption): void {
-    this.shareFormControl = new FormControl('', shareOption.validators);
+  constructor(private fb: FormBuilder) {
+    this.selectShareOption(this.selectedShareOption);
+  }
 
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      ['share']: this.shareFormControl,
+    });
+  }
+
+  selectShareOption(shareOption: ShareOption): void {
     this.selectedShareOption = shareOption;
+
+    if (this.shareFormControl) {
+      this.form.controls['share'].setValidators(shareOption.validators);
+      this.shareFormControl.setValue('');
+
+      return;
+    }
+
+    this.shareFormControl = new FormControl('', shareOption.validators);
   }
 
   isShareOptionActive(shareOption: ShareOption): boolean {
@@ -53,7 +68,7 @@ export class ShareFormComponent {
       return;
     }
 
-    this.shareSubmit.emit({ [ this.selectedShareOption.type ]: this.shareFormControl.value });
+    this.shareSubmit.emit({ [this.selectedShareOption.type]: this.shareFormControl.value });
   }
 
   dismiss(): void {
@@ -63,5 +78,4 @@ export class ShareFormComponent {
   get isShareFormValid() {
     return this.shareFormControl && this.shareFormControl.valid;
   }
-
 }

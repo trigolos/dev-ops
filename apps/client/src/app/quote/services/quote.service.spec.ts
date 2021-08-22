@@ -19,10 +19,7 @@ describe('QuoteService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        mockQuoteApiServiceProvider,
-        mockQuotesyProvider,
-      ],
+      providers: [mockQuoteApiServiceProvider, mockQuotesyProvider],
     });
     service = TestBed.inject(QuoteService);
     quotesy = TestBed.inject(QUOTESY);
@@ -37,31 +34,41 @@ describe('QuoteService', () => {
     expect(quote).toEqual(jasmine.any(Observable));
   });
 
-  it('should execute quotesy to get random quote', waitForAsync(inject([ QuoteApiService ], quotesApi => {
-    service.hasApiUrl = false;
-    const spyQuotesy = spyOn(quotesy, 'random').and.returnValue(mockQuote);
-    const spy = spyOn(quotesApi, 'getRandom').and.returnValue(of(mockQuote));
+  it(
+    'should execute quotesy to get random quote',
+    waitForAsync(
+      inject([QuoteApiService], (quotesApi) => {
+        service.hasApiUrl = false;
+        const spyQuotesy = spyOn(quotesy, 'random').and.returnValue(mockQuote);
+        const spy = spyOn(quotesApi, 'getRandom').and.returnValue(of(mockQuote));
 
-    service.getRandom().subscribe(quote => {
-      expect(spyQuotesy).toHaveBeenCalled();
-      expect(spy).not.toHaveBeenCalled();
-      expect(quote).toEqual(mockQuote);
-    });
-  })));
+        service.getRandom().subscribe((quote) => {
+          expect(spyQuotesy).toHaveBeenCalled();
+          expect(spy).not.toHaveBeenCalled();
+          expect(quote).toEqual(mockQuote);
+        });
+      }),
+    ),
+  );
 
-  it('should execute quotesy to get random quote', waitForAsync(inject([ QuoteApiService ], quotesApi => {
-    service.hasApiUrl = true;
-    const spyQuotesy = spyOn(quotesy, 'random').and.returnValue(mockQuote);
-    const spy = spyOn(quotesApi, 'getRandom').and.returnValue(of(mockQuote));
+  it(
+    'should execute quotesy to get random quote',
+    waitForAsync(
+      inject([QuoteApiService], (quotesApi) => {
+        service.hasApiUrl = true;
+        const spyQuotesy = spyOn(quotesy, 'random').and.returnValue(mockQuote);
+        const spy = spyOn(quotesApi, 'getRandom').and.returnValue(of(mockQuote));
 
-    service.getRandom().subscribe(quote => {
-      expect(spyQuotesy).not.toHaveBeenCalled();
-      expect(spy).toHaveBeenCalled();
-      expect(quote).toEqual(mockQuote);
-    });
-  })));
+        service.getRandom().subscribe((quote) => {
+          expect(spyQuotesy).not.toHaveBeenCalled();
+          expect(spy).toHaveBeenCalled();
+          expect(quote).toEqual(mockQuote);
+        });
+      }),
+    ),
+  );
 
-  it('should call share API', inject([ QuoteApiService ], quoteApi => {
+  it('should call share API', inject([QuoteApiService], (quoteApi) => {
     const spy = spyOn(quoteApi, 'share').and.returnValue({});
 
     service.hasShareApiUrl = true;
@@ -70,7 +77,5 @@ describe('QuoteService', () => {
     service.hasShareApiUrl = false;
     service.share({} as Quote, {} as ContactData);
     expect(spy).toHaveBeenCalledTimes(1);
-
   }));
-
 });

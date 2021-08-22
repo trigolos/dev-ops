@@ -2,22 +2,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { NgxSmartModalComponent, NgxSmartModalService } from 'ngx-smart-modal';
 
+import { ContactData, Quote } from '../../../models';
 import { ModalIds } from '../view.models';
-import { ContactData, Quote } from '../../models';
 
 @Component({
   selector: 'app-share-modal',
   templateUrl: './quote-share-modal.component.html',
-  styleUrls: [ './quote-share-modal.component.scss' ],
+  styleUrls: ['./quote-share-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteShareModalComponent implements OnInit {
   private modal: NgxSmartModalComponent;
   quote: Quote;
 
-  constructor(
-    private modalService: NgxSmartModalService,
-  ) { }
+  constructor(private modalService: NgxSmartModalService) {}
 
   ngOnInit(): void {
     this.modal = this.modalService.get(ModalIds.quoteShare);
@@ -35,5 +33,4 @@ export class QuoteShareModalComponent implements OnInit {
     this.modal.setData(null, true);
     this.modal.close();
   }
-
 }

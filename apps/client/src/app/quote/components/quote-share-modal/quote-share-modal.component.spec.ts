@@ -1,31 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { NgxSmartModalService } from 'ngx-smart-modal';
-
+import { ContactData } from '../../../models';
+import { ButtonComponent, InputComponent } from '../../../shared/components';
+import { mockNgxSmartModalService } from '../../../stub/ngx-smart-modal-service.mock';
 import { QuotePreviewComponent, QuoteShareModalComponent, ShareFormComponent } from '../../components';
-import { ContactData } from '../../models';
-import { NgxSmartModalServiceMock } from '../../stub';
-
 
 describe('ShareModalComponent', () => {
   let component: QuoteShareModalComponent;
   let fixture: ComponentFixture<QuoteShareModalComponent>;
 
-  const testQuote = { text: 'test quote text', author: 'test' };
+  const testQuote = { id: '1', text: 'test quote text', author: 'test' };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [
-        QuoteShareModalComponent,
-        QuotePreviewComponent,
-        ShareFormComponent,
-      ],
-      providers: [
-        { provide: NgxSmartModalService, useClass: NgxSmartModalServiceMock },
-      ],
-    })
-      .compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule],
+        declarations: [
+          InputComponent,
+          ButtonComponent,
+          QuoteShareModalComponent,
+          QuotePreviewComponent,
+          ShareFormComponent,
+        ],
+        providers: [mockNgxSmartModalService],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteShareModalComponent);
@@ -48,10 +49,13 @@ describe('ShareModalComponent', () => {
       component.quote = { ...testQuote };
       component.onShareSubmit(contractData);
 
-      expect(spySetData).toHaveBeenCalledWith({
-        quote: { ...testQuote },
-        ...contractData,
-      }, true);
+      expect(spySetData).toHaveBeenCalledWith(
+        {
+          quote: { ...testQuote },
+          ...contractData,
+        },
+        true,
+      );
       expect(spyClose).toHaveBeenCalled();
     });
   });
